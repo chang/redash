@@ -23,7 +23,7 @@ def is_empty_schedule(schedule):
     if schedule is None:
         return False
 
-    if schedule == {}:
+    if schedule == {} or schedule == 'null':
         return True
 
     if schedule.get('interval') is None and schedule.get('until') is None and schedule.get('day_of_week') is None and schedule.get('time') is None:
