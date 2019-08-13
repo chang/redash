@@ -11,8 +11,6 @@ services:
     ports:
       - "5000:5000"
       - "5678:5678"
-    volumes:
-      - ".:/app"
     environment:
       PYTHONUNBUFFERED: 0
       REDASH_LOG_LEVEL: "INFO"
@@ -21,11 +19,7 @@ services:
       REDASH_RATELIMIT_ENABLED: "false"
   worker:
     build: .
-    command: dev_worker
-    volumes:
-      - type: bind
-        source: .
-        target: /app
+    command: scheduler
     depends_on:
       - server
     environment:
@@ -47,3 +41,9 @@ services:
       - "15432:5432"
     command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"
     restart: unless-stopped
+  employees:
+    image: genschsa/mysql-employees
+    environment:
+      - MYSQL_ROOT_PASSWORD=foo
+    ports:
+      - "3307:3306"
